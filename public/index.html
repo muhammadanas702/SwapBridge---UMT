@@ -1,103 +1,770 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0D0916"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg"><title>SectionSwap</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c0618">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg">
+<title>SectionSwap</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0D0916;--card:#171027;--line:#2B2147;--tx:#EFEAFE;--mut:#9A8FBF;--p:#A855F7;--p2:#7C3AED;--lime:#D4FF3A;--red:#FF5C7A;color-scheme:dark}
-*{box-sizing:border-box;margin:0}body{font:15px/1.5 Figtree,system-ui,sans-serif;background:radial-gradient(900px 500px at 85% -10%,#2a1255,transparent),var(--bg);color:var(--tx);min-height:100vh;padding:env(safe-area-inset-top) 0 0}
-h1,h2,h3,.brand,.big{font-family:Syne,sans-serif;letter-spacing:-.02em}h1{font-size:30px}h2{font-size:20px;margin:22px 0 10px}a{color:var(--p)}
-.i{width:20px;height:20px;flex:none}.shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
-nav{padding:22px 14px;border-right:1px solid var(--line);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
-.brand{font-size:22px;font-weight:800;padding:0 10px 18px;display:flex;gap:8px;align-items:center}.brand b{color:var(--lime)}
-nav a{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;color:var(--mut);text-decoration:none;font-weight:500;position:relative}
-nav a:hover{color:var(--tx);background:#ffffff0a}nav a.on{background:linear-gradient(90deg,#a855f733,transparent);color:var(--tx);box-shadow:inset 3px 0 var(--p)}
-nav .sp{flex:1}.dot{background:var(--lime);color:#000;font-size:11px;font-weight:700;border-radius:99px;padding:0 6px;margin-left:auto}
-main{padding:28px clamp(16px,4vw,44px) 90px;max-width:980px;width:100%;animation:up .35s ease both}@keyframes up{from{opacity:0;transform:translateY(8px)}}
-.card,.tk{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}.stat .big{font-size:36px;font-weight:800;color:var(--lime)}.stat small{color:var(--mut)}
-.tk{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;position:relative;border-left:3px solid var(--p)}
-.tk-l b{font:800 20px Syne}.tk-l small{display:block;color:var(--mut)}.tk-r{display:flex;align-items:center;gap:8px;color:var(--p)}
-.tk-r i{font:800 20px Syne;font-style:normal;border:1.5px solid var(--line);border-radius:10px;min-width:44px;text-align:center;padding:2px 10px}.tk-r i.w{border-color:var(--p);color:var(--lime)}
-.tk .x{flex-basis:100%;display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-top:1px dashed var(--line);padding-top:12px}
-.pill{font-size:12px;font-weight:600;border-radius:99px;padding:3px 10px;background:#ffffff12;color:var(--mut)}.pill.active,.pill.mutual,.pill.completed{background:#d4ff3a22;color:var(--lime)}.pill.approval_pending{background:#a855f733;color:#d8b4fe}.pill.declined,.pill.cancelled,.pill.expired{background:#ff5c7a22;color:var(--red)}
-button,.btn{font:600 14px Figtree;border:1px solid var(--line);background:#ffffff0d;color:var(--tx);border-radius:12px;padding:9px 14px;cursor:pointer;text-decoration:none;display:inline-flex;gap:6px;align-items:center;transition:.15s}
-button:hover,.btn:hover{border-color:var(--p);transform:translateY(-1px)}.pr{background:linear-gradient(135deg,var(--p),var(--p2));border:0;color:#fff}.dg{color:var(--red)}
-:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
-form.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}label{display:grid;gap:4px;font-size:13px;color:var(--mut);font-weight:500}
-input,select,textarea{font:inherit;background:#0D0916;color:var(--tx);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}input:focus,select:focus,textarea:focus{border-color:var(--p);outline:0}
-.full{grid-column:1/-1}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}.empty{text-align:center;color:var(--mut);padding:40px 10px;border:1px dashed var(--line);border-radius:18px}
-.why{color:var(--mut);font-size:13px}.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--lime);color:#000;font-weight:600;padding:10px 18px;border-radius:99px;z-index:9;animation:up .3s}.toast.bad{background:var(--red);color:#fff}
-.auth{max-width:420px;margin:8vh auto;padding:20px}.auth .brand{font-size:34px;padding:0 0 6px}.auth p{color:var(--mut);margin-bottom:18px}.tabs{display:flex;gap:8px;margin-bottom:14px}
-.note{color:var(--mut);font-size:12px;margin-top:12px}.nt{display:flex;gap:10px;align-items:center}.nt.u{border-left:3px solid var(--lime)}
-@media(max-width:800px){.shell{display:block}nav{position:fixed;inset:auto 0 0 0;height:auto;flex-direction:row;justify-content:space-around;z-index:5;background:#0D0916ee;backdrop-filter:blur(12px);border:0;border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom));overflow-x:auto}.brand,nav .sp,nav a span{display:none}nav a{padding:10px}nav a.on{box-shadow:none}.dot{position:absolute;top:2px;right:0}}
-.av{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--p);vertical-align:middle;margin-right:10px}
+:root{--bg:#f6f1ff;--sf:rgba(255,255,255,.8);--sf2:#fff;--tx:#1b0f33;--mu:#6f5f8c;--pr:#a855f7;--pd:#7e22ce;--ln:rgba(126,34,206,.14);--gl:rgba(168,85,247,.28);--ok:#16a34a;--er:#e11d48;--am:#f59e0b;--g1:#c4b5fd;--g2:#f0abfc;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c0618;--sf:rgba(32,18,56,.62);--sf2:#1c1030;--tx:#f5eeff;--mu:#a592c6;--pr:#b97bff;--pd:#d8b4fe;--ln:rgba(216,180,254,.13);--gl:rgba(168,85,247,.4);--g1:#6d28d9;--g2:#be185d}}
+:root[data-theme="dark"]{--bg:#0c0618;--sf:rgba(32,18,56,.62);--sf2:#1c1030;--tx:#f5eeff;--mu:#a592c6;--pr:#b97bff;--pd:#d8b4fe;--ln:rgba(216,180,254,.13);--gl:rgba(168,85,247,.4);--g1:#6d28d9;--g2:#be185d}
+:root[data-theme="light"]{--bg:#f6f1ff;--sf:rgba(255,255,255,.8);--sf2:#fff;--tx:#1b0f33;--mu:#6f5f8c;--pr:#a855f7;--pd:#7e22ce;--ln:rgba(126,34,206,.14);--gl:rgba(168,85,247,.28);--g1:#c4b5fd;--g2:#f0abfc}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.55 Manrope,system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+body:before,body:after{content:"";position:fixed;width:55vmax;height:55vmax;border-radius:50%;filter:blur(90px);opacity:.38;z-index:-1;animation:drift 18s ease-in-out infinite alternate}
+body:before{background:var(--g1);top:-25vmax;left:-15vmax}body:after{background:var(--g2);bottom:-30vmax;right:-15vmax;animation-delay:-9s;opacity:.25}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.15)}}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}
+@keyframes flt{50%{transform:translateY(-12px) rotate(var(--r))}}
+@keyframes pop{from{opacity:0;transform:scale(.94)}}
+@keyframes dash{to{background-position:24px 0}}
+@keyframes pls{50%{box-shadow:0 0 0 8px transparent}}
+@keyframes spin{to{transform:rotate(360deg)}}
+h1,h2,h3,.dsp{font-family:Unbounded,sans-serif;letter-spacing:-.03em;margin:0;font-weight:700}
+.mono{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--pd)}
+svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+/* ── TOP NAV ── */
+.top{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));z-index:10;margin:10px auto 0;width:min(1060px,calc(100% - 24px));display:flex;align-items:center;gap:6px;padding:8px 10px;background:var(--sf);backdrop-filter:blur(18px);border:1px solid var(--ln);border-radius:20px;box-shadow:0 10px 40px -18px var(--gl)}
+.logo{display:flex;align-items:center;gap:9px;font-family:Unbounded;font-weight:800;font-size:16px;margin-right:auto;padding-left:4px;text-decoration:none;color:var(--tx)}
+.lg{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--pr),#ec4899);display:grid;place-items:center;color:#fff;box-shadow:0 6px 18px -4px var(--gl)}
+.tab{display:flex;align-items:center;gap:7px;border:0;background:none;color:var(--mu);padding:9px 13px;border-radius:12px;font-weight:600;position:relative;transition:.2s;cursor:pointer;text-decoration:none;font-size:14px}
+.tab:hover{color:var(--tx);background:var(--ln)}
+.tab.on{color:#fff;background:linear-gradient(135deg,var(--pr),var(--pd))}
+.tab .bd{position:absolute;top:2px;right:2px;background:var(--er);color:#fff;font-size:10px;min-width:16px;height:16px;border-radius:9px;display:grid;place-items:center;font-style:normal}
+.ib{width:38px;height:38px;border-radius:12px;border:1px solid var(--ln);background:none;color:var(--mu);display:grid;place-items:center;cursor:pointer}
+.ib:hover{color:var(--tx);border-color:var(--pr)}
+/* ── AVATAR ── */
+.av{width:var(--s,40px);height:var(--s,40px);border-radius:50%;display:inline-grid;place-items:center;color:#fff;font-weight:700;font-size:calc(var(--s,40px)*.36);flex:none}
+.av-img{width:var(--s,40px);height:var(--s,40px);border-radius:50%;object-fit:cover;flex:none}
+/* ── MAIN ── */
+main{width:min(1060px,calc(100% - 24px));margin:26px auto 60px}
+.in>*{animation:up .55s cubic-bezier(.2,.7,.2,1) both}
+.in>*:nth-child(2){animation-delay:.07s}.in>*:nth-child(3){animation-delay:.14s}
+.in>*:nth-child(4){animation-delay:.21s}.in>*:nth-child(n+5){animation-delay:.28s}
+h1{font-size:clamp(26px,4.5vw,40px);line-height:1.1}h2{font-size:18px}
+.sub{color:var(--mu);margin:8px 0 24px;max-width:560px}
+.sec{display:flex;justify-content:space-between;align-items:center;margin:30px 0 14px}
+/* ── CARDS ── */
+.card{background:var(--sf);backdrop-filter:blur(14px);border:1px solid var(--ln);border-radius:22px;padding:20px;margin-bottom:14px}
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.st{background:var(--sf);border:1px solid var(--ln);border-radius:20px;padding:18px;backdrop-filter:blur(14px)}
+.st b{font:700 28px Unbounded;display:block;background:linear-gradient(135deg,var(--pr),#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent}
+.st span{color:var(--mu);font-size:13px;font-weight:600}
+/* ── CTA BANNER ── */
+.cta{display:flex;align-items:center;gap:16px;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(120deg,var(--pd),var(--pr) 55%,#ec4899);color:#fff;border-radius:22px;padding:20px 24px;margin:16px 0;box-shadow:0 20px 50px -20px var(--gl)}
+.cta .btn{background:#fff;color:#4c1d95;border:0}
+/* ── GRID ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+/* ── TICKET ── */
+.tk{position:relative;background:var(--sf);backdrop-filter:blur(14px);border:1px solid var(--ln);border-radius:22px;padding:18px 18px 16px;transition:.3s;-webkit-mask:radial-gradient(circle 11px at 0 62%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 11px at 100% 62%,#0000 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 11px at 0 62%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 11px at 100% 62%,#0000 98%,#000) right/51% 100% no-repeat;margin-bottom:0}
+.tk:hover{transform:translateY(-5px);border-color:var(--pr)}
+.tk:hover .sw svg{transform:rotate(180deg)}
+.tk .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding-bottom:22px;border-bottom:2px dashed var(--ln)}
+.tk .hd b{display:block;font-size:15px}
+.tk .bd2{padding-top:16px}
+/* ── SWAP PILL ROW ── */
+.sw{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sw svg{color:var(--pr);transition:.5s}
+.pill-sec{font:700 15px Unbounded;min-width:46px;text-align:center;padding:8px 12px;border-radius:14px;background:linear-gradient(135deg,var(--ln),transparent);border:1px solid var(--ln);color:var(--pd);white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis}
+.pill-sec.w{background:linear-gradient(135deg,var(--pr),var(--pd));color:#fff;border:0}
+.tm{color:var(--mu);font-size:12px;margin-top:8px}
+/* ── STATUS TAGS ── */
+.tag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;text-transform:uppercase;letter-spacing:.05em;background:var(--ln);color:var(--pd);white-space:nowrap}
+.tag.active,.tag.live,.tag.completed,.tag.mutual{background:rgba(22,163,74,.16);color:var(--ok)}
+.tag.paused,.tag.pending,.tag.draft,.tag.approval_pending{background:rgba(245,158,11,.18);color:var(--am)}
+.tag.cancelled,.tag.declined,.tag.expired,.tag.suspended,.tag.closed,.tag.banned{background:rgba(225,29,72,.14);color:var(--er)}
+.tag.matched{background:rgba(236,72,153,.16);color:#ec4899}
+/* ── LAYOUT UTILS ── */
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sb{justify-content:space-between}
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--ln);background:none;padding:9px 15px;border-radius:12px;font-weight:700;font-size:14px;transition:.2s;text-decoration:none;cursor:pointer;color:var(--tx)}
+.btn:hover{border-color:var(--pr);transform:translateY(-1px)}
+.btn.p,.pr{background:linear-gradient(135deg,var(--pr),var(--pd));color:#fff;border:0;box-shadow:0 10px 24px -10px var(--gl)}
+.btn.d,.dg{color:var(--er)}
+.btn.s{padding:6px 11px;font-size:13px}
+/* ── NEW PLACEHOLDER ── */
+.new{border:2px dashed var(--ln);border-radius:22px;display:grid;place-items:center;min-height:160px;color:var(--mu);background:none;font-weight:700;transition:.3s;width:100%}
+.new:hover{border-color:var(--pr);color:var(--pd);background:var(--ln)}
+.new svg{width:28px;height:28px;margin-bottom:6px}
+/* ── DUEL LAYOUT ── */
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin:18px 0 8px;text-align:center}
+.side{display:flex;flex-direction:column;align-items:center;gap:6px}
+.side em{font-style:normal;font-size:12px;font-weight:700;color:var(--am)}
+.side em.ok{color:var(--ok)}.side em.no{color:var(--er)}
+.side small{color:var(--mu)}
+.side .av,.side .av-img{box-shadow:0 0 0 4px var(--ln)}
+.side.go .av,.side.go .av-img{box-shadow:0 0 0 4px var(--ok);animation:pls 2s infinite}
+.br{width:70px;height:40px;display:grid;place-items:center;color:var(--pr);background:repeating-linear-gradient(90deg,var(--pr) 0 8px,transparent 8px 16px) center/100% 2px no-repeat;animation:dash 1s linear infinite}
+.br span{background:var(--sf2);border:1px solid var(--ln);border-radius:50%;width:34px;height:34px;display:grid;place-items:center}
+.cd{font:500 13px 'JetBrains Mono';color:var(--am)}
+/* ── FORMS ── */
+label.l{display:block;font-size:12px;font-weight:700;margin:16px 0 7px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em}
+label.lf{display:grid;gap:4px;font-size:13px;color:var(--mu);font-weight:600;margin-bottom:10px}
+input,select,textarea{width:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--ln);background:var(--sf2);color:var(--tx);font:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--pr);border-color:transparent}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.full{grid-column:1/-1}
+.ch{display:flex;gap:8px;flex-wrap:wrap}
+.c{border:1px solid var(--ln);background:var(--sf2);border-radius:14px;padding:9px 13px;font-weight:600;text-align:left;transition:.2s;cursor:pointer;color:var(--tx)}
+.c small{display:block;color:var(--mu);font-weight:500;font-size:11px}
+.c.on{background:linear-gradient(135deg,var(--pr),var(--pd));color:#fff;border-color:transparent}
+.c.on small{color:#f3e8ff}
+/* ── MODAL ── */
+.ov{position:fixed;inset:0;background:rgba(8,3,20,.6);backdrop-filter:blur(6px);z-index:30;display:grid;place-items:center;padding:14px;animation:pop .25s}
+.md{width:min(560px,100%);max-height:92vh;overflow:auto;background:var(--sf2);border:1px solid var(--ln);border-radius:26px;padding:24px;animation:pop .35s cubic-bezier(.2,.8,.2,1)}
+/* ── NOTIFICATION ROWS ── */
+.lst{display:flex;gap:12px;align-items:flex-start;padding:12px 4px;border-bottom:1px solid var(--ln)}
+.lst:last-child{border:0}
+.dt{width:9px;height:9px;border-radius:50%;background:var(--pr);margin-top:7px;flex:none}
+.dt.r{background:var(--ln)}
+.nt{display:flex;gap:12px;align-items:center;padding:12px;border-bottom:1px solid var(--ln)}
+.nt.u{border-left:3px solid var(--pr)}
+.nt:last-child{border-bottom:0}
+/* ── EMPTY ── */
+.empty{text-align:center;color:var(--mu);padding:34px 10px;border:2px dashed var(--ln);border-radius:20px;grid-column:1/-1}
+/* ── TABLE ── */
+.scr{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+td,th{text-align:left;padding:10px 8px;border-bottom:1px solid var(--ln);font-size:14px;white-space:nowrap}
+th{color:var(--mu);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+code{font:500 12.5px 'JetBrains Mono';background:var(--ln);padding:2px 7px;border-radius:7px}
+/* ── HINT ── */
+.hint{font-size:11px;font-weight:700;color:var(--ok);background:rgba(22,163,74,.12);padding:3px 9px;border-radius:99px;margin-right:4px}
+/* ── TOAST ── */
+.toast{position:fixed;bottom:calc(86px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:11px 20px;border-radius:14px;font-weight:600;z-index:50;animation:up .3s;max-width:90vw;pointer-events:none}
+.toast.bad{background:var(--er);color:#fff}
+/* ── AUTH PAGE ── */
+.auth{display:grid;grid-template-columns:1.1fr 1fr;min-height:100vh;align-items:center;gap:30px;padding:30px max(24px,6vw)}
+.hero h1{font-size:clamp(34px,5.4vw,64px);line-height:1.02}
+.hero h1 span{background:linear-gradient(120deg,var(--pr),#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stack{position:relative;height:230px;margin-top:34px}
+.stack .tk{position:absolute;width:270px;--r:-4deg;animation:flt 6s ease-in-out infinite}
+.stack .tk:nth-child(2){left:150px;top:70px;--r:3deg;animation-delay:-3s}
+/* ── AUTH FORM CARD ── */
+.auth-card{max-width:430px;width:100%;justify-self:center;padding:28px;animation:pop .5s}
+.atabs{display:flex;gap:8px;margin-bottom:18px}
+/* ── LOADER ── */
+.spin{width:22px;height:22px;border:3px solid var(--ln);border-top-color:var(--pr);border-radius:50%;animation:spin .7s linear infinite;margin:40px auto}
+/* ── WHY ── */
+.why{color:var(--mu);font-size:13px}
+.note{color:var(--mu);font-size:12px;margin-top:12px}
+/* ── CANVAS ── */
+canvas{position:fixed;inset:0;pointer-events:none;z-index:60}
+/* ── MOBILE ── */
+.mob .auth{grid-template-columns:1fr;padding:22px 16px;min-height:100vh}
+.mob .hero h1{font-size:34px}
+.mob .tab span{display:none}
+.mob .top{position:fixed;top:auto;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:12px;right:12px;margin:0;width:auto;justify-content:space-around;padding:6px}
+.mob .top .logo,.mob .top .ib.h{display:none}
+.mob .tab{padding:12px 15px}
+.mob main{margin:18px auto 120px}
+.mob .stats{gap:8px}
+.mob .st{padding:12px}
+.mob .st b{font-size:20px}
+.mob .stack .tk{width:240px}
+.mob .stack .tk:nth-child(2){left:70px}
+.mob .duel{gap:4px}
+.mob .br{width:44px}
+.mob .btn{min-height:42px}
+.mob .grid{grid-template-columns:1fr}
+.mob .ov{place-items:end center;padding:0}
+.mob .md{width:100%;border-radius:28px 28px 0 0}
+.mob .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.mob .fab{display:grid;position:fixed;right:18px;bottom:calc(88px + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:20px;border:0;background:linear-gradient(135deg,var(--pr),#ec4899);color:#fff;place-items:center;box-shadow:0 14px 30px -8px var(--gl);z-index:12}
+.mob .fab svg{width:26px;height:26px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style></head><body><div id="app"></div><script>
-const P={calendar:'<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',home:'<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',plus:'<path d="M12 5v14M5 12h14"/>',search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',repeat:'<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>'};
-const I=n=>`<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+</style></head><body>
+<div id="app"></div>
+<div id="modal"></div>
+<div id="toastbox"></div>
+<button class="fab" id="fabBtn" aria-label="New request" onclick="location.hash='#/new'">
+<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+<script>
+/* ─────────────────────────────────────────────
+   ICONS
+───────────────────────────────────────────── */
+const IC={
+  swap:'<path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/>',
+  home:'<path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
+  list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  repeat:'<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
+  bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 0 0 4 0"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  moon:'<path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/>',
+  sun:'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>',
+  out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+  calendar:'<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  arr:'<path d="M5 12h14m-6-6 6 6-6 6"/>',
+  clk:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  link:'<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
+  x:'<path d="M18 6 6 18M6 6l12 12"/>'
+};
+const ic=n=>`<svg viewBox="0 0 24 24">${IC[n]||''}</svg>`;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const app=document.getElementById('app');let me,unread=0,CAT=[],BQ={page:1};if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+
+/* ─────────────────────────────────────────────
+   UTILS
+───────────────────────────────────────────── */
+const $=s=>document.querySelector(s);
+const ago=t=>{const s=(Date.now()-new Date(t).getTime())/1e3;return s<60?'just now':s<3600?Math.floor(s/60)+'m ago':s<86400?Math.floor(s/3600)+'h ago':Math.floor(s/86400)+'d ago'};
+function hsh(str){let h=5381;for(const c of str+'ss')h=(h*33)^c.charCodeAt(0);return(h>>>0).toString(36)}
+const av=(n,z=40)=>{const h=250+[...hsh(n||'?')].reduce((a,c)=>a+c.charCodeAt(0),0)%90;return`<span class="av" style="--s:${z}px;background:linear-gradient(135deg,hsl(${h} 85% 64%),hsl(${h+45} 85% 50%))">${n?n.split(' ').map(x=>x[0]).join('').slice(0,2):'?'}</span>`};
+const avEl=(u,z=40)=>{if(u&&u.avatar)return`<img class="av-img" style="--s:${z}px" src="${esc(u.avatar)}" alt="${esc(u.name)}">`; return av(u?.name||'?',z)};
+
+/* ─────────────────────────────────────────────
+   API + STATE
+───────────────────────────────────────────── */
+let me=null,unread=0,CAT=[],BQ={page:1};
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
 async function api(m,u,b){const r=await fetch('/api/v1'+u,{method:m,headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Something went wrong');return d}
-const toast=(t,bad)=>{const e=document.createElement('div');e.className='toast'+(bad?' bad':'');e.textContent=t;e.setAttribute('role','status');document.body.append(e);setTimeout(()=>e.remove(),3000)};
-const ST={draft:'Draft',active:'Live',paused:'Paused',cancelled:'Cancelled',expired:'Expired',pending:'Awaiting responses',mutual:'Mutual interest',approval_pending:'Awaiting university approval',completed:'Completed (self-reported)',declined:'Declined',closed:'Closed'};
-const pill=s=>`<span class="pill ${s}">${ST[s]||s}</span>`;
-const tk=(r,x='')=>`<article class="tk"><div class="tk-l"><b>${esc(r.course)}</b><small>${esc(r.cname||'')} · ${esc(r.term)}</small></div><div class="tk-r" aria-label="Section ${esc(r.cur)} to ${esc(r.want)}"><i>${esc(r.cur)}</i>${I('repeat')}<i class="w">${esc(r.want)}</i></div>${x?`<div class="x">${x}</div>`:''}</article>`;
-const empty=(t,l,h)=>`<div class="empty">${t}${l?`<div class="row" style="justify-content:center"><a class="btn pr" href="${h}">${l}</a></div>`:''}</div>`;
-const fld=(n,l,v='',t='text',x='')=>`<label>${l}<input name="${n}" type="${t}" value="${esc(v)}" ${x}></label>`;
-const btn=(c,t,o={})=>`<button class="${o.k||''}" data-c="${c}" ${o.cf?`data-cf="${o.cf}"`:''} ${o.pr?`data-pr="${o.pr}"`:''} ${o.b?`data-b='${o.b}'`:''} data-ok="${o.ok||'Done'}">${t}</button>`;
-const NAV=[['home','Dashboard','home'],['new','Create Request','plus'],['browse','Browse','search'],['mine','My Requests','list'],['matches','My Matches','repeat'],['timetable','Timetable','calendar'],['notifs','Notifications','bell'],['history','Swap History','clock'],['profile','Profile','user']];
-const shell=(v,b)=>`<div class="shell"><nav aria-label="Main"><div class="brand">${I('repeat')}Section<b>Swap</b></div>${NAV.concat(me.role==='admin'?[['admin','Admin','shield']]:[]).map(([k,l,i])=>`<a href="#/${k}" class="${v===k?'on':''}" ${v===k?'aria-current="page"':''} title="${l}">${I(i)}<span>${l}</span>${k==='notifs'&&unread?`<em class="dot">${unread}</em>`:''}</a>`).join('')}</nav><main>${b}</main></div>`;
+function toast(msg,bad=false){const e=document.createElement('div');e.className='toast'+(bad?' bad':'');e.textContent=msg;e.setAttribute('role','status');document.getElementById('toastbox').append(e);setTimeout(()=>e.remove(),3500)}
+
+/* ─────────────────────────────────────────────
+   STATUS LABELS
+───────────────────────────────────────────── */
+const ST={draft:'Draft',active:'Live',paused:'Paused',cancelled:'Cancelled',expired:'Expired',pending:'Pending',mutual:'Mutual match',approval_pending:'Awaiting approval',completed:'Completed',declined:'Declined',closed:'Closed',matched:'Matched'};
+const tagEl=s=>`<span class="tag ${s}">${ST[s]||s}</span>`;
+
+/* ─────────────────────────────────────────────
+   TICKET COMPONENT
+───────────────────────────────────────────── */
+const ticket=(r,acts='',hint='')=>`
+<div class="tk">
+  <div class="hd">
+    <div>
+      ${r.course?`<span class="mono">${esc(r.course)}</span>`:''}
+      <b>${esc(r.cname||r.course||'')}</b>
+      ${r.term?`<div class="tm">${esc(r.term)}</div>`:''}
+    </div>
+    ${tagEl(r.st||r.status||'active')}
+  </div>
+  <div class="bd2">
+    ${hint}
+    <div class="sw" style="margin-top:${hint?8:0}px">
+      <span class="pill-sec">${esc(r.cur||r.have||'?')}</span>
+      ${ic('swap')}
+      <span class="pill-sec w">${esc(r.want||'?')}</span>
+      ${r.alt?`<span class="pill-sec" style="font-size:12px;padding:4px 8px">+${esc(r.alt)}</span>`:''}
+    </div>
+    ${r.days?`<div class="tm">${ic('clk')} ${esc(r.days)}</div>`:''}
+    ${r.time?`<div class="tm">${ic('clk')} ${esc(r.time)}</div>`:''}
+    ${r.notes?`<div class="tm">"${esc(r.notes)}"</div>`:''}
+    ${r.reason?`<div class="tm">${esc(r.reason)}</div>`:''}
+    ${acts?`<div class="row" style="margin-top:14px">${acts}</div>`:''}
+  </div>
+</div>`;
+
+/* ─────────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────────── */
+const fld=(n,l,v='',t='text',x='')=>`<label class="lf">${l}<input name="${n}" type="${t}" value="${esc(v)}" ${x}></label>`;
+const actionBtn=(c,label,opts={})=>`<button class="btn s ${opts.k||''}" data-c="${c}" ${opts.cf?`data-cf="${opts.cf}"`:''}  ${opts.pr?`data-pr="${opts.pr}"`:''}  ${opts.b?`data-b='${opts.b}'`:''} data-ok="${opts.ok||'Done'}">${label}</button>`;
+const emptyEl=(t,l,h)=>`<div class="empty">${t}${l?`<div class="row" style="justify-content:center;margin-top:12px"><a class="btn p" href="${h}">${l}</a></div>`:''}</div>`;
 const DAYOPT=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=>`<option>${d}</option>`).join('');
 const dl=(id,a)=>`<datalist id="${id}">${[...new Set(a)].map(x=>`<option value="${esc(x)}">`).join('')}</datalist>`;
-const authView=()=>`<div class="auth"><div class="brand">${I('repeat')}Section<b>Swap</b></div><p>Find a student who wants your section - while you want theirs.</p>
-<div class="tabs"><button class="pr" onclick="sh('lg')">Log in</button><button onclick="sh('rg')">Register</button><button onclick="sh('fg')">Forgot password</button></div>
-<form id="lg" class="card g" data-f="POST /auth/login" data-ok="Welcome back">${fld('email','Email','','email','required autocomplete=email')}${fld('password','Password','','password','required autocomplete=current-password')}<button class="pr full">Log in</button></form>
-<form id="rg" class="card g" hidden data-f="POST /auth/register" data-ok="Account created">${fld('name','Display name','','text','required')}${fld('email','Email','','email','required')}${fld('password','Password (8+)','','password','required minlength=8 autocomplete=new-password')}${fld('uni','University')}${fld('campus','Campus')}${fld('program','Degree program')}${fld('semester','Semester','','number','min=1 max=12')}<button class="pr full">Create account</button></form>
-<form id="fg" class="card g" hidden data-f="POST /auth/forgot" data-ok="If the email exists, a reset token was issued">${fld('email','Account email','','email','required')}<button class="pr full">Request reset</button><p class="note full">No email service is configured, so the token is printed in the server console. Paste it below.</p></form>
-<form id="rs" class="card g" hidden data-f="POST /auth/reset" data-ok="Password updated - log in">${fld('token','Reset token','','text','required')}${fld('password','New password (8+)','','password','required minlength=8')}<button class="pr full">Set new password</button></form>
-<p class="note">Demo (fictional): ayesha@demo.test / bilal@demo.test / admin@demo.test - password demo1234</p></div>`;
-window.sh=id=>{for(const f of['lg','rg','fg','rs'])document.getElementById(f).hidden=f!==id&&!(id==='fg'&&f==='rs')};
-const reqForm=(r={})=>`<form class="card g" data-f="${r.id?'PATCH /requests/'+r.id:'POST /requests'}" data-go="#/mine" data-ok="Saved">${dl('dc',CAT.map(x=>x.course))}${dl('dt',CAT.map(x=>x.term))}${dl('ds',CAT.map(x=>x.section))}${fld('course','Course code',r.course,'text','required list=dc placeholder="CS201"')}${fld('cname','Course name',r.cname,'text','required')}${fld('term','Academic term',r.term||'Fall 2026','text','required list=dt')}${fld('cur','Current section',r.cur,'text','required list=ds')}${fld('want','Desired section',r.want,'text','required list=ds')}${fld('expires','Expiry date',r.expires,'date')}${fld('alt','Alternative sections (optional)',r.alt)}${fld('days','Preferred days / times',r.days,'text','placeholder="Mon-Wed mornings"')}
-<label>Reason<select name="reason">${['Timetable clash','Preferred class timing','Transport difficulty','Work or personal scheduling','Other'].map(o=>`<option ${o===r.reason?'selected':''}>${o}</option>`).join('')}</select></label><label>Timetable compatibility<select name="tt">${['optional','preferred','required'].map(o=>`<option ${o===(r.tt||'optional')?'selected':''}>${o}</option>`).join('')}</select></label><label class="full">Notes<textarea name="notes" rows="3" maxlength="500">${esc(r.notes)}</textarea></label>
-<div id="pv" class="full"></div><div class="row full"><button type="button" data-prev>Preview</button><button name="draft" value="draft">Save draft</button><button class="pr" name="publish" value="1">${I('repeat')}Publish request</button></div></form>`;
+
+/* ─────────────────────────────────────────────
+   AUTH VIEW
+───────────────────────────────────────────── */
+const authView=()=>`
+<div class="auth">
+  <div class="hero">
+    <div class="logo" style="margin-bottom:34px">${ic('swap')} SectionSwap</div>
+    <h1>Swap sections.<br><span>Not schedules.</span></h1>
+    <p class="sub" style="font-size:17px">Post the section you have, pick the ones you'd take. We find a student with the mirror request, and nothing changes until both of you say yes.</p>
+    <div class="stack" aria-hidden="true">
+      <div class="tk">
+        <div class="hd"><div><span class="mono">CS-201</span><b>Data Structures</b></div></div>
+        <div class="bd2"><div class="sw"><span class="pill-sec">5A</span>${ic('swap')}<span class="pill-sec w">5B</span></div></div>
+      </div>
+      <div class="tk">
+        <div class="hd"><div><span class="mono">MT-201</span><b>Calculus II</b></div></div>
+        <div class="bd2"><div class="sw"><span class="pill-sec">C</span>${ic('swap')}<span class="pill-sec w">A</span></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card auth-card">
+    <div class="atabs">
+      <button class="btn p s" onclick="sh('lg')">Log in</button>
+      <button class="btn s" onclick="sh('rg')">Register</button>
+      <button class="btn s" onclick="sh('fg')">Forgot password</button>
+    </div>
+    <form id="lg" data-f="POST /auth/login" data-ok="Welcome back">
+      ${fld('email','University email','','email','required autocomplete=email')}
+      ${fld('password','Password','','password','required autocomplete=current-password')}
+      <button class="btn p" style="margin-top:16px;width:100%">Sign in ${ic('arr')}</button>
+    </form>
+    <form id="rg" hidden data-f="POST /auth/register" data-ok="Account created">
+      ${fld('name','Full name','','text','required')}
+      ${fld('email','Email','','email','required')}
+      ${fld('password','Password (8+ chars)','','password','required minlength=8 autocomplete=new-password')}
+      ${fld('uni','University')}
+      ${fld('campus','Campus')}
+      ${fld('program','Degree program')}
+      ${fld('semester','Semester','','number','min=1 max=12')}
+      <button class="btn p" style="margin-top:16px;width:100%">Create account ${ic('arr')}</button>
+    </form>
+    <form id="fg" hidden data-f="POST /auth/forgot" data-ok="If the email exists, a reset token was issued">
+      ${fld('email','Account email','','email','required')}
+      <button class="btn p" style="margin-top:16px;width:100%">Request reset ${ic('arr')}</button>
+      <p class="note">No email service: token is printed in server console. Paste it below.</p>
+    </form>
+    <form id="rs" hidden data-f="POST /auth/reset" data-ok="Password updated - log in">
+      ${fld('token','Reset token','','text','required')}
+      ${fld('password','New password (8+)','','password','required minlength=8')}
+      <button class="btn p" style="margin-top:16px;width:100%">Set new password ${ic('arr')}</button>
+    </form>
+    <p class="note">Demo: ayesha@demo.test / bilal@demo.test / admin@demo.test — password demo1234</p>
+  </div>
+</div>`;
+
+window.sh=id=>{for(const f of['lg','rg','fg','rs'])document.getElementById(f).hidden=(f!==id&&!(id==='fg'&&f==='rs'))};
+
+/* ─────────────────────────────────────────────
+   SHELL / NAV
+───────────────────────────────────────────── */
+const NAV=[
+  ['home','Home','home'],
+  ['new','New','plus'],
+  ['browse','Browse','search'],
+  ['mine','Mine','list'],
+  ['matches','Matches','repeat'],
+  ['timetable','Timetable','calendar'],
+  ['notifs','Alerts','bell'],
+  ['history','History','clock'],
+  ['profile','Profile','user']
+];
+function shell(v,body){
+  const tabs=NAV.concat(me?.role==='admin'?[['admin','Admin','shield']]:[]);
+  const isDark=document.documentElement.dataset.theme==='dark'||(document.documentElement.dataset.theme!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches);
+  return `
+<header class="top">
+  <a class="logo" href="#/home">${ic('swap')} SectionSwap</a>
+  ${tabs.map(([k,l,i])=>`<a class="tab ${v===k?'on':''}" href="#/${k}" ${v===k?'aria-current="page"':''} title="${l}">
+    ${ic(i)}<span>${l}</span>${k==='notifs'&&unread?`<em class="bd">${unread}</em>`:''}
+  </a>`).join('')}
+  <button class="ib h" onclick="toggleTheme()" aria-label="Toggle theme">${isDark?ic('sun'):ic('moon')}</button>
+  <button class="ib" onclick="doLogout()" aria-label="Sign out" title="Sign out">${ic('out')}</button>
+</header>
+<main class="in">${body}</main>
+<button class="fab" aria-label="New request" onclick="location.hash='#/new'">${ic('plus')}</button>`;
+}
+
+/* ─────────────────────────────────────────────
+   REQUEST FORM
+───────────────────────────────────────────── */
+const reqForm=(r={})=>`
+<form class="card fg" data-f="${r.id?'PATCH /requests/'+r.id:'POST /requests'}" data-go="#/mine" data-ok="Saved">
+  ${dl('dc',CAT.map(x=>x.course))}${dl('dt',CAT.map(x=>x.term))}${dl('ds',CAT.map(x=>x.section))}
+  ${fld('course','Course code',r.course,'text','required list=dc placeholder="CS201"')}
+  ${fld('cname','Course name',r.cname,'text','required')}
+  ${fld('term','Academic term',r.term||'Fall 2026','text','required list=dt')}
+  ${fld('cur','Current section',r.cur,'text','required list=ds')}
+  ${fld('want','Desired section',r.want,'text','required list=ds')}
+  ${fld('expires','Expiry date',r.expires,'date')}
+  ${fld('alt','Alternative sections (optional)',r.alt)}
+  ${fld('days','Preferred days / times',r.days,'text','placeholder="Mon-Wed mornings"')}
+  <label class="lf full">Reason
+    <select name="reason">${['Timetable clash','Preferred class timing','Transport difficulty','Work or personal scheduling','Other'].map(o=>`<option ${o===r.reason?'selected':''}>${o}</option>`).join('')}</select>
+  </label>
+  <label class="lf full">Timetable compatibility
+    <select name="tt">${['optional','preferred','required'].map(o=>`<option ${o===(r.tt||'optional')?'selected':''}>${o}</option>`).join('')}</select>
+  </label>
+  <label class="lf full">Notes<textarea name="notes" rows="3" maxlength="500">${esc(r.notes)}</textarea></label>
+  <div id="pv" class="full"></div>
+  <div class="row full">
+    <button type="button" data-prev class="btn s">Preview</button>
+    <button name="draft" value="draft" class="btn s">Save draft</button>
+    <button class="btn p" name="publish" value="1">${ic('repeat')} Publish request</button>
+  </div>
+</form>`;
+
+/* ─────────────────────────────────────────────
+   VIEWS
+───────────────────────────────────────────── */
 const V={
-async home(){const[m,r,n]=await Promise.all([api('GET','/matches'),api('GET','/requests/mine'),api('GET','/notifications')]);const c=s=>m.items.filter(x=>x.status===s).length;
- return `<h1>${me.avatar?`<img class="av" src="${esc(me.avatar)}" alt="">`:''}Hi, ${esc(me.name)}</h1><p class="why">Your swap radar.</p><h2>Overview</h2><div class="stats">${[['Live requests',r.items.filter(x=>x.st==='active').length],['Potential matches',c('pending')],['Pending interests',m.items.filter(x=>x.their?.interest==='interested'&&x.my.interest!=='interested').length],['Mutual matches',c('mutual')],['Approval pending',c('approval_pending')],['Unread alerts',n.items.filter(x=>!x.read).length]].map(([l,v])=>`<div class="stat"><div class="big">${v}</div><small>${l}</small></div>`).join('')}</div>
- <div class="row"><a class="btn pr" href="#/new">${I('plus')}Create request</a><a class="btn" href="#/browse">${I('search')}Browse</a><a class="btn" href="#/matches">${I('repeat')}Find matches</a></div>
- <h2>Expiring soon</h2>${r.items.filter(x=>x.st==='active'&&x.expires).map(x=>tk(x,`<span class="why">Expires ${esc(x.expires)}</span>`)).join('')||'<p class="why">Nothing expiring.</p>'}
- <h2>Recent activity</h2>${n.items.slice(0,5).map(x=>`<a class="card nt ${x.read?'':'u'}" href="${esc(x.link)}">${I('bell')}${esc(x.text)}</a>`).join('')||'<p class="why">No activity yet.</p>'}`},
-async new(){CAT=(await api('GET','/catalog')).items;return `<h1>Create swap request</h1><p class="why">Same course, same term. Both sides must agree before anything moves forward.</p><br>${reqForm()}`},
-async edit(id){CAT=(await api('GET','/catalog')).items;const r=(await api('GET','/requests/mine')).items.find(x=>x.id==id);return r?`<h1>Edit request</h1><br>${reqForm(r)}`:empty('Request not found')},
-async mine(){const{items}=await api('GET','/requests/mine');return `<h1>My requests</h1><br>${items.map(r=>tk(r,`${pill(r.st)}<span class="why">${r.matches} match${r.matches==1?'':'es'} · ${r.expires?'expires '+esc(r.expires):'no expiry'}</span><span style="flex:1"></span>${r.st!=='cancelled'&&r.st!=='expired'?`<a class="btn" href="#/edit/${r.id}">Edit</a>`:''}${{draft:btn(`POST /requests/${r.id}/publish`,'Publish',{k:'pr'})+btn(`DELETE /requests/${r.id}`,'Delete',{k:'dg',cf:'Delete this draft?'}),active:btn(`POST /requests/${r.id}/find`,'Find matches',{ok:'Search complete'})+btn(`POST /requests/${r.id}/pause`,'Pause')+btn(`POST /requests/${r.id}/cancel`,'Cancel',{k:'dg',cf:'Cancel this request?'}),paused:btn(`POST /requests/${r.id}/resume`,'Resume',{k:'pr'})+btn(`POST /requests/${r.id}/cancel`,'Cancel',{k:'dg',cf:'Cancel this request?'}),expired:btn(`POST /requests/${r.id}/renew`,'Renew',{k:'pr'}),cancelled:''}[r.st]||''}`)).join('')||empty('No requests yet.','Create your first','#/new')}`},
-async browse(){const qs=new URLSearchParams(Object.entries(BQ).filter(([,v])=>v)).toString(),d=await api('GET','/requests?'+qs);
- return `<h1>Browse requests</h1><br><form class="card g" data-bf>${fld('q','Course code or name',BQ.q)}${fld('term','Term',BQ.term)}${fld('cur','Current section',BQ.cur)}${fld('want','Desired section',BQ.want)}${fld('since','Posted since',BQ.since,'date')}<label>Timetable pref<select name="tt"><option value="">Any</option>${['required','preferred','optional'].map(o=>`<option ${BQ.tt===o?'selected':''}>${o}</option>`).join('')}</select></label><label>Sort<select name="sort"><option value="">Newest</option><option value="expiry" ${BQ.sort==='expiry'?'selected':''}>Expiring soon</option></select></label><button class="pr" style="align-self:end">${I('search')}Filter</button></form>
- ${d.items.map(r=>tk(r,`<span class="why">${esc(r.owner)} · ${esc(r.uni||'')} ${esc(r.campus||'')}</span>${r.reason?`<span class="pill">${esc(r.reason)}</span>`:''}${r.days?`<span class="pill">${esc(r.days)}</span>`:''}${r.alt?`<span class="pill">Alt: ${esc(r.alt)}</span>`:''}`)).join('')||empty('No requests match these filters.')}
- <div class="row"><button data-pg="${d.page-1}" ${d.page<2?'disabled':''}>Prev</button><span class="why" style="align-self:center">Page ${d.page} · ${d.total} total</span><button data-pg="${d.page+1}" ${d.page*8>=d.total?'disabled':''}>Next</button></div>`},
-async matches(){const{items}=await api('GET','/matches');return `<h1>My matches</h1><p class="why">Exact reciprocal fits. Nothing is official until your university approves it.</p><br>${items.filter(m=>!['declined','cancelled','closed','completed'].includes(m.status)).map(m=>{const b=`POST /matches/${m.id}/`,s=m.status;
- return tk(m,`${pill(s)}<span class="pill ${m.tt.s==='clash'?'declined':m.tt.s==='ok'?'active':''}">Timetable: ${m.tt.s} (unverified)</span><span class="why">${esc(m.why)}${m.tt.d.length?' Conflicts: '+esc(m.tt.d.join('; ')):''}</span><div class="row full" style="flex-basis:100%">${m.my.interest!=='interested'?btn(b+'interest','Express interest',{k:'pr'})+btn(b+'decline','Decline',{k:'dg'}):btn(b+'withdraw','Withdraw interest')}${s==='mutual'&&!m.my.confirm?btn(b+'confirm','Confirm swap',{k:'pr',ok:'Confirmed'}):''}${s==='approval_pending'?btn(b+'outcome','Mark approved (self-reported)',{k:'pr'}):''}${['mutual','approval_pending'].includes(s)?btn(b+'cancel','Cancel match',{k:'dg',cf:'Cancel this match?'}):''}${btn(b+'report','Report',{pr:'Why are you reporting this student?'})}${btn(b+'block','Block',{k:'dg',cf:'Block this student?'})}</div>${s==='pending'?`<span class="why">${m.their.interest==='interested'?'They are interested. ':''}Waiting for both of you.</span>`:''}${m.contact?`<span class="pill active">Contact: ${esc(m.contact)}</span>`:`<span class="why">Contact details unlock after both confirm.</span>`}`)}).join('')||empty('No active matches yet. Publish a request and we will keep watching.','Create request','#/new')}`},
-async notifs(){const c=BQ.cat||'',{items}=await api('GET','/notifications'+(c?'?cat='+c:''));await api('POST','/notifications/read');unread=0;return `<h1>Notifications</h1><div class="row">${['','match','consent','expiry','moderation'].map(k=>`<button class="${c===k?'pr':''}" data-cat="${k}">${k||'All'}</button>`).join('')}</div><br>${items.map(x=>`<a class="card nt ${x.read?'':'u'}" href="${esc(x.link)}">${I('bell')}<span>${esc(x.text)}<br><small class="why">${esc(x.cat)} · ${esc(x.created)}</small></span></a>`).join('')||empty('All caught up.')}`},
-async history(){const h=await api('GET','/history'),c=(BQ.hc||'').toUpperCase(),t=BQ.ht||'',s=BQ.hs||'',d=BQ.hd||'',ok=(x,st)=>(!c||x.course.includes(c))&&(!t||x.term===t)&&(!s||st===s)&&(!d||String(x.created).slice(0,10)>=d),rs=h.requests.filter(x=>ok(x,x.st)),ms=h.matches.filter(x=>ok(x,x.status));
- return `<h1>Swap history</h1><p class="why">"Completed" means coordination between students, self-reported - not a verified enrollment change.</p><br><form class="card g" data-hf>${fld('hc','Course',BQ.hc)}${fld('ht','Term',BQ.ht)}<label>Status<select name="hs"><option value="">All</option>${['cancelled','expired','declined','closed','completed'].map(k=>`<option value="${k}" ${s===k?'selected':''}>${ST[k]}</option>`).join('')}</select></label>${fld('hd','Since',BQ.hd,'date')}<button class="pr" style="align-self:end">Filter</button></form>${rs.map(r=>tk(r,pill(r.st))).join('')}${ms.map(m=>tk(m,`${pill(m.status)}${m.outcome?`<span class="why">${esc(m.outcome)}</span>`:''}`)).join('')||(rs.length?'':empty('Nothing here yet.'))}`},
-async timetable(){const{items}=await api('GET','/timetable');return `<h1>My timetable</h1><p class="why">Entered by you, so unverified. Used to detect clashes with the section you want.</p><br><form class="card g" data-f="POST /timetable" data-ok="Class added">${fld('course','Course','','text','required')}${fld('section','Section')}<label>Day<select name="day">${DAYOPT}</select></label>${fld('start','Start','','time','required')}${fld('end','End','','time','required')}<button class="pr" style="align-self:end">Add class</button></form>${items.map(s=>`<div class="card nt">${I('calendar')}<span><b>${esc(s.course)}</b> ${esc(s.section)} · ${s.day} ${s.start}-${s.end}</span><span style="flex:1"></span>${btn(`DELETE /timetable/${s.id}`,'Remove',{k:'dg'})}</div>`).join('')||empty('No classes yet. Matches will show timetable as unknown.')}`},
-async profile(){return `<h1>${me.avatar?`<img class="av" src="${esc(me.avatar)}" alt="">`:''}Profile & settings</h1><br><form class="card g" data-f="PATCH /me" data-ok="Profile updated">${fld('name','Display name',me.name)}${fld('uni','University',me.uni)}${fld('campus','Campus',me.campus)}${fld('program','Degree program',me.program)}${fld('semester','Semester',me.semester,'number')}${fld('term','Academic term',me.term)}<label class="full">Profile image (resized to 128px)<input type="file" accept="image/png,image/jpeg,image/webp" data-av="1"></label><button class="pr full">Save</button></form><div class="row">${me.avatar?btn('PATCH /me','Remove image',{b:'{"avatar":""}'}):''}${btn('POST /auth/logout','Log out')}${btn('DELETE /me','Delete account',{k:'dg',cf:'Permanently delete your account and data?'})}</div>`},
-async admin(){const[s,r,cat,sr,tr]=await Promise.all([api('GET','/admin/stats'),api('GET','/admin/reports'),api('GET','/catalog'),api('GET','/admin/search?q='+encodeURIComponent(BQ.aq||'')),api('GET','/terms')]);
- return `<h1>Admin</h1><br><div class="stats">${Object.entries(s).map(([k,v])=>`<div class="stat"><div class="big">${v}</div><small>${k}</small></div>`).join('')}</div>
- <h2>Course catalog</h2><form class="card g" data-f="POST /admin/offerings" data-ok="Offering added">${fld('course','Course code','','text','required')}${fld('cname','Course name','','text','required')}${fld('term','Term','','text','required')}${fld('section','Section','','text','required')}<label>Day<select name="day">${DAYOPT}</select></label>${fld('start','Start','','time','required')}${fld('end','End','','time','required')}<button class="pr" style="align-self:end">Add</button></form>
- ${cat.items.map(o=>`<div class="card nt"><span><b>${esc(o.course)}</b> ${esc(o.term)} · Sec ${esc(o.section)} · ${o.day} ${o.start}-${o.end}</span><span style="flex:1"></span>${btn(`DELETE /admin/offerings/${o.id}`,'Delete',{k:'dg',cf:'Delete offering?'})}</div>`).join('')||'<p class="why">Empty: students can type any section until offerings exist.</p>'}
- <h2>Terms & registration deadlines</h2><form class="card g" data-f="POST /admin/terms" data-ok="Term saved">${fld('name','Term name','','text','required')}${fld('reg_deadline','Registration deadline','','date','required')}<button class="pr" style="align-self:end">Save</button></form>${tr.items.map(t=>`<div class="card nt"><span><b>${esc(t.name)}</b> · deadline ${esc(t.reg_deadline)}</span><span style="flex:1"></span>${btn(`DELETE /admin/terms/${t.id}`,'Delete',{k:'dg'})}</div>`).join('')||'<p class="why">No terms yet. Students get an alert 3 days before a deadline.</p>'}<h2>Users & requests</h2><form class="card g" data-af>${fld('q','Search email, name or course',BQ.aq)}<button class="pr" style="align-self:end">Search</button></form>
- ${sr.users.map(u=>`<div class="card nt"><span><b>${esc(u.name)}</b> <span class="why">${esc(u.email)}${u.banned?' · banned':''}</span></span><span style="flex:1"></span>${u.role!=='admin'&&!u.banned?btn(`POST /admin/users/${u.id}/ban`,'Ban',{k:'dg',cf:'Ban this user?'}):''}</div>`).join('')}
- ${sr.requests.map(x=>`<div class="card nt"><span><b>${esc(x.course)}</b> ${esc(x.cur)} → ${esc(x.want)} · ${esc(x.term)} <span class="why">${esc(x.email)}</span></span>${pill(x.st)}<span style="flex:1"></span>${['active','paused','draft'].includes(x.st)?btn(`POST /admin/requests/${x.id}/remove`,'Remove',{k:'dg',cf:'Remove this request?'}):''}</div>`).join('')}
- <h2>Maintenance</h2><div class="row">${btn('POST /admin/sweep','Close expired requests')}</div>
- <h2>Reports</h2>${r.items.map(x=>`<div class="card">${pill(x.status==='open'?'pending':'completed')} <b>${esc(x.tname)}</b> <span class="why">${esc(x.temail)}${x.banned?' · banned':''}</span><p>${esc(x.reason)}</p>${x.status==='open'?`<div class="row">${btn(`POST /admin/reports/${x.id}/ban`,'Ban user',{k:'dg',cf:'Ban this user?'})}${btn(`POST /admin/reports/${x.id}/dismiss`,'Dismiss')}</div>`:''}</div>`).join('')||empty('No reports.')}<h2>Audit log</h2>${r.audit.map(a=>`<div class="why">${esc(a.created)} · ${esc(a.action)}</div>`).join('')||'<p class="why">Empty.</p>'}`}};
-async function render(){const[v,id]=(location.hash.slice(2)||'home').split('/');
- try{const r=await api('GET','/me');me=r.user;unread=r.unread}catch{me=null}
- if(!me){app.innerHTML=authView();return}
- try{const b=await(V[v]||V.home)(id);app.innerHTML=shell(V[v]?v:'home',b)}catch(e){app.innerHTML=shell(v,empty('Could not load this page: '+esc(e.message)))}}
-document.addEventListener('click',async e=>{const t=e.target.closest('[data-c],[data-pg],[data-cat],[data-prev]');if(!t)return;if(t.dataset.prev){document.getElementById('pv').innerHTML=tk(Object.fromEntries(new FormData(t.form)));return}
- if(t.dataset.pg){BQ.page=+t.dataset.pg;return render()}if(t.dataset.cat!==undefined){BQ.cat=t.dataset.cat;return render()}
- if(t.dataset.cf&&!confirm(t.dataset.cf))return;let b=t.dataset.b?JSON.parse(t.dataset.b):undefined;if(t.dataset.pr){b={reason:prompt(t.dataset.pr)};if(!b.reason)return}
- const[m,u]=t.dataset.c.split(' ');try{await api(m,u,b);toast(t.dataset.ok);if(u==='/me'||u==='/auth/logout')location.hash='#/home';render()}catch(x){toast(x.message,1)}});
-document.addEventListener('submit',async e=>{const f=e.target;e.preventDefault();const b=Object.fromEntries(new FormData(f));
- if(f.dataset.bf){BQ={...b,page:1};return render()}if(f.dataset.hf){Object.assign(BQ,{hc:b.hc,ht:b.ht,hs:b.hs,hd:b.hd});return render()}if(f.dataset.af){BQ.aq=b.q;return render()}if(f.dataset.fg){f.dataset.f='POST /auth/forgot';}if(!f.dataset.f)return;if(e.submitter?.name)b[e.submitter.name]=e.submitter.value;
- const[m,u]=f.dataset.f.split(' ');try{const r=await api(m,u,b);toast(r.verify?'Check your email to verify your account':f.dataset.ok);if(f.dataset.go)location.hash=f.dataset.go;else render()}catch(x){toast(x.message,1)}});
-document.addEventListener('change',e=>{const i=e.target;if(!i.dataset.av||!i.files[0])return;const im=new Image();im.onload=async()=>{const c=document.createElement('canvas');c.width=c.height=128;const s=Math.min(im.width,im.height);c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,128,128);try{await api('PATCH','/me',{avatar:c.toDataURL('image/jpeg',.8)});toast('Photo updated');render()}catch(x){toast(x.message,1)}};im.src=URL.createObjectURL(i.files[0])});
-addEventListener('hashchange',render);render();
-</script></body></html>
+  async home(){
+    const[m,r,n]=await Promise.all([api('GET','/matches'),api('GET','/requests/mine'),api('GET','/notifications')]);
+    const c=s=>m.items.filter(x=>x.status===s).length;
+    const stats=[
+      ['Live requests',r.items.filter(x=>x.st==='active').length],
+      ['Potential matches',c('pending')],
+      ['Mutual matches',c('mutual')],
+      ['Awaiting approval',c('approval_pending')],
+      ['Completed swaps',m.items.filter(x=>x.status==='completed').length],
+      ['Unread alerts',n.items.filter(x=>!x.read).length]
+    ];
+    const expiring=r.items.filter(x=>x.st==='active'&&x.expires);
+    const recent=n.items.slice(0,5);
+    return `
+<div>
+  <h1>${avEl(me,44)} Hi, ${esc(me.name?.split(' ')[0]||me.name)}</h1>
+  <p class="sub">Your swap radar — requests, matches and activity at a glance.</p>
+</div>
+<div class="stats">${stats.map(([l,v])=>`<div class="st"><b>${v}</b><span>${l}</span></div>`).join('')}</div>
+${m.items.filter(x=>x.status==='pending'&&x.my?.interest!=='interested').length?`
+<div class="cta">
+  <div>
+    <h2>${m.items.filter(x=>x.status==='pending'&&x.my?.interest!=='interested').length} match${m.items.filter(x=>x.status==='pending'&&x.my?.interest!=='interested').length>1?'es':''} waiting for you</h2>
+    <div style="opacity:.9">Someone has your mirror request. Respond before it expires.</div>
+  </div>
+  <a class="btn" href="#/matches">Review ${ic('arr')}</a>
+</div>`:''}
+<div class="sec"><h2>Expiring soon</h2></div>
+${expiring.map(x=>ticket(x,`<span class="why">Expires ${esc(x.expires)}</span>`)).join('')||`<p class="why">Nothing expiring soon.</p>`}
+<div class="sec"><h2>Recent activity</h2></div>
+<div class="card">
+${recent.map(x=>`<div class="lst"><i class="dt ${x.read?'r':''}"></i><div style="flex:1">${esc(x.text)}<div class="tm">${ago(x.created)}</div></div></div>`).join('')||'<p class="tm">All quiet.</p>'}
+</div>
+<div class="row">
+  <a class="btn p" href="#/new">${ic('plus')} Create request</a>
+  <a class="btn" href="#/browse">${ic('search')} Browse</a>
+  <a class="btn" href="#/matches">${ic('repeat')} My matches</a>
+</div>`;
+  },
+
+  async new(){CAT=(await api('GET','/catalog')).items;return`<h1>New swap request</h1><p class="sub">Same course, same term. Both sides must agree before anything moves forward.</p><br>${reqForm()}`},
+
+  async edit(id){CAT=(await api('GET','/catalog')).items;const r=(await api('GET','/requests/mine')).items.find(x=>x.id==id);return r?`<h1>Edit request</h1><br>${reqForm(r)}`:emptyEl('Request not found')},
+
+  async mine(){
+    const{items}=await api('GET','/requests/mine');
+    return `<h1>My requests</h1>
+<div class="sec"><span></span><a class="btn p s" href="#/new">${ic('plus')} New request</a></div>
+<div class="grid">${items.map(r=>ticket(r,
+  `${tagEl(r.st)}
+   <span class="why">${r.matches||0} match${r.matches==1?'':'es'}${r.expires?' · expires '+esc(r.expires):''}</span>
+   <span style="flex:1"></span>
+   ${r.st!=='cancelled'&&r.st!=='expired'?`<a class="btn s" href="#/edit/${r.id}">Edit</a>`:''}
+   ${{draft:actionBtn(`POST /requests/${r.id}/publish`,'Publish',{k:'p'})+actionBtn(`DELETE /requests/${r.id}`,'Delete',{k:'d',cf:'Delete this draft?'}),
+      active:actionBtn(`POST /requests/${r.id}/find`,'Find matches',{ok:'Search complete'})+actionBtn(`POST /requests/${r.id}/pause`,'Pause')+actionBtn(`POST /requests/${r.id}/cancel`,'Cancel',{k:'d',cf:'Cancel this request?'}),
+      paused:actionBtn(`POST /requests/${r.id}/resume`,'Resume',{k:'p'})+actionBtn(`POST /requests/${r.id}/cancel`,'Cancel',{k:'d',cf:'Cancel this request?'}),
+      expired:actionBtn(`POST /requests/${r.id}/renew`,'Renew',{k:'p'}),
+      cancelled:''}[r.st]||''}`
+)).join('')}
+<button class="new" onclick="location.hash='#/new'">${ic('plus')}<br>Post a request</button>
+</div>`;
+  },
+
+  async browse(){
+    const qs=new URLSearchParams(Object.entries(BQ).filter(([,v])=>v)).toString();
+    const d=await api('GET','/requests?'+qs);
+    return `<h1>Browse requests</h1>
+<p class="sub">Identities stay hidden until a swap is confirmed by both sides.</p>
+<div class="card">
+  <form class="fg" data-bf>
+    ${fld('q','Course code or name',BQ.q)}${fld('term','Term',BQ.term)}
+    ${fld('cur','Current section',BQ.cur)}${fld('want','Desired section',BQ.want)}
+    ${fld('since','Posted since',BQ.since,'date')}
+    <label class="lf">Timetable pref<select name="tt"><option value="">Any</option>${['required','preferred','optional'].map(o=>`<option ${BQ.tt===o?'selected':''}>${o}</option>`).join('')}</select></label>
+    <label class="lf">Sort<select name="sort"><option value="">Newest</option><option value="expiry" ${BQ.sort==='expiry'?'selected':''}>Expiring soon</option></select></label>
+    <button class="btn p" style="align-self:end">${ic('search')} Filter</button>
+  </form>
+</div>
+<div class="grid">${d.items.map(r=>ticket(r,
+  `<span class="why">${esc(r.owner)} · ${esc(r.uni||'')} ${esc(r.campus||'')}</span>
+   ${r.reason?`<span class="tag">${esc(r.reason)}</span>`:''}
+   ${r.days?`<span class="tag">${esc(r.days)}</span>`:''}
+   ${r.alt?`<span class="tag">Alt: ${esc(r.alt)}</span>`:''}`
+)).join('')||emptyEl('No requests match your filters.')}
+</div>
+<div class="row">
+  <button data-pg="${d.page-1}" ${d.page<2?'disabled':''} class="btn s">← Prev</button>
+  <span class="why" style="align-self:center">Page ${d.page} · ${d.total} total</span>
+  <button data-pg="${d.page+1}" ${d.page*8>=d.total?'disabled':''} class="btn s">Next →</button>
+</div>`;
+  },
+
+  async matches(){
+    const{items}=await api('GET','/matches');
+    const active=items.filter(m=>!['declined','cancelled','closed','completed'].includes(m.status));
+    const stt=v=>v===true?['ok','Accepted']:v===false?['no','Declined']:['','Waiting'];
+    return `<h1>My matches</h1>
+<p class="sub">Exact reciprocal fits. Nothing is official until your university approves it.</p>
+${active.map(m=>{
+  const b=`POST /matches/${m.id}/`,s=m.status;
+  const myAccepted=m.my?.interest==='interested',theirAccepted=m.their?.interest==='interested';
+  return `<div class="card">
+  <div class="row sb">
+    <div><span class="mono">${esc(m.course||'')}</span> <b>${esc(m.cname||m.course||'')}</b></div>
+    ${tagEl(s)}
+  </div>
+  <div class="duel">
+    <div class="side ${myAccepted?'go':''}">
+      ${avEl(me,60)}<b>You</b>
+      <span class="pill-sec">${esc(m.cur||'')}</span>
+      <em class="${myAccepted?'ok':''}">${myAccepted?'Interested':'Waiting'}</em>
+    </div>
+    <div class="br"><span>${ic('swap')}</span></div>
+    <div class="side ${theirAccepted?'go':''}">
+      ${av('?',60)}<b>Classmate</b>
+      <span class="pill-sec w">${esc(m.want||'')}</span>
+      <em class="${theirAccepted?'ok':''}">${theirAccepted?'Interested':'Waiting'}</em>
+    </div>
+  </div>
+  ${m.contact?`<p class="tm" style="text-align:center">Contact: <b>${esc(m.contact)}</b></p>`:'<p class="why" style="text-align:center">Contact details unlock after both confirm.</p>'}
+  ${m.tt?`<div class="row" style="margin-top:8px"><span class="tag ${m.tt.s==='clash'?'declined':m.tt.s==='ok'?'active':''}">Timetable: ${m.tt.s}</span></div>`:''}
+  <div class="row" style="margin-top:14px">
+    ${!myAccepted?actionBtn(b+'interest','Express interest',{k:'p'})+actionBtn(b+'decline','Decline',{k:'d'}):''}
+    ${myAccepted?actionBtn(b+'withdraw','Withdraw interest'):''}
+    ${s==='mutual'&&!m.my?.confirm?actionBtn(b+'confirm','Confirm swap',{k:'p',ok:'Confirmed'}):''}
+    ${s==='approval_pending'?actionBtn(b+'outcome','Mark approved',{k:'p'}):''}
+    ${['mutual','approval_pending'].includes(s)?actionBtn(b+'cancel','Cancel',{k:'d',cf:'Cancel this match?'}):''}
+    ${actionBtn(b+'report','Report',{pr:'Why are you reporting this student?'})}
+    ${actionBtn(b+'block','Block',{k:'d',cf:'Block this student?'})}
+  </div>
+</div>`}).join('')||emptyEl('No active matches yet. Publish a request and we will keep watching.','Create request','#/new')}`;
+  },
+
+  async notifs(){
+    const cat=BQ.cat||'';
+    const{items}=await api('GET','/notifications'+(cat?'?cat='+cat:''));
+    await api('POST','/notifications/read');unread=0;
+    return `<h1>Notifications</h1>
+<div class="ch" style="margin-bottom:16px">
+  ${['','match','consent','expiry','moderation'].map(k=>`<button class="c ${cat===k?'on':''}" data-cat="${k}">${k||'All'}</button>`).join('')}
+</div>
+<div class="card">
+  ${items.map(x=>`<div class="lst"><i class="dt ${x.read?'r':''}"></i><div style="flex:1"><a href="${esc(x.link||'#')}" style="color:inherit;text-decoration:none">${esc(x.text)}</a><div class="tm">${esc(x.cat||'')} · ${ago(x.created)}</div></div></div>`).join('')||'<p class="tm">All caught up.</p>'}
+</div>`;
+  },
+
+  async history(){
+    const h=await api('GET','/history');
+    const hc=(BQ.hc||'').toUpperCase(),ht=BQ.ht||'',hs=BQ.hs||'',hd=BQ.hd||'';
+    const ok=(x,st)=>(!hc||x.course?.includes(hc))&&(!ht||x.term===ht)&&(!hs||st===hs)&&(!hd||String(x.created).slice(0,10)>=hd);
+    const rs=h.requests.filter(x=>ok(x,x.st));
+    const ms=h.matches.filter(x=>ok(x,x.status));
+    return `<h1>Swap history</h1>
+<p class="sub">"Completed" means coordination between students, self-reported — not a verified enrollment change.</p>
+<div class="card">
+  <form class="fg" data-hf>
+    ${fld('hc','Course',BQ.hc)}
+    ${fld('ht','Term',BQ.ht)}
+    <label class="lf">Status<select name="hs"><option value="">All</option>${['cancelled','expired','declined','closed','completed'].map(k=>`<option value="${k}" ${hs===k?'selected':''}>${ST[k]}</option>`).join('')}</select></label>
+    ${fld('hd','Since',BQ.hd,'date')}
+    <button class="btn p" style="align-self:end">Filter</button>
+  </form>
+</div>
+${rs.map(r=>ticket(r,tagEl(r.st))).join('')}
+${ms.map(m=>ticket(m,`${tagEl(m.status)}${m.outcome?`<span class="why">${esc(m.outcome)}</span>`:''}`)).join('') ||(rs.length?'':emptyEl('Nothing here yet.'))}`;
+  },
+
+  async timetable(){
+    const{items}=await api('GET','/timetable');
+    return `<h1>My timetable</h1>
+<p class="sub">Entered by you, so unverified. Used to detect clashes with the section you want.</p>
+<div class="card">
+  <form class="fg" data-f="POST /timetable" data-ok="Class added">
+    ${fld('course','Course','','text','required')}
+    ${fld('section','Section')}
+    <label class="lf">Day<select name="day">${DAYOPT}</select></label>
+    ${fld('start','Start','','time','required')}
+    ${fld('end','End','','time','required')}
+    <button class="btn p" style="align-self:end">${ic('plus')} Add class</button>
+  </form>
+</div>
+${items.map(s=>`<div class="card">
+  <div class="row sb">
+    <div class="row">${ic('calendar')}<span><b>${esc(s.course)}</b> ${esc(s.section)} · ${s.day} ${s.start}–${s.end}</span></div>
+    ${actionBtn(`DELETE /timetable/${s.id}`,'Remove',{k:'d'})}
+  </div>
+</div>`).join('')||emptyEl('No classes yet. Matches will show timetable as unknown.')}`;
+  },
+
+  async profile(){
+    return `<h1>Profile &amp; settings</h1>
+<div class="card">
+  <div class="row" style="margin-bottom:18px">
+    ${avEl(me,64)}
+    <div>
+      <b style="font-size:18px">${esc(me.name)}</b>
+      <div class="why">${esc(me.email)}</div>
+      ${me.uni?`<div class="why">${esc(me.uni)}${me.campus?' · '+esc(me.campus):''}</div>`:''}
+    </div>
+  </div>
+</div>
+<form class="card fg" data-f="PATCH /me" data-ok="Profile updated">
+  ${fld('name','Display name',me.name)}
+  ${fld('uni','University',me.uni)}
+  ${fld('campus','Campus',me.campus)}
+  ${fld('program','Degree program',me.program)}
+  ${fld('semester','Semester',me.semester,'number')}
+  ${fld('term','Academic term',me.term)}
+  <label class="lf full">Profile image (resized to 128px)<input type="file" accept="image/png,image/jpeg,image/webp" data-av="1"></label>
+  <button class="btn p full">Save changes</button>
+</form>
+<div class="row">
+  ${me.avatar?actionBtn('PATCH /me','Remove image',{b:'{"avatar":""}'}):''} 
+  ${actionBtn('POST /auth/logout','Log out')}
+  ${actionBtn('DELETE /me','Delete account',{k:'d',cf:'Permanently delete your account and data?'})}
+</div>`;
+  },
+
+  async admin(){
+    const[s,rp,cat,sr,tr]=await Promise.all([
+      api('GET','/admin/stats'),api('GET','/admin/reports'),
+      api('GET','/catalog'),api('GET','/admin/search?q='+encodeURIComponent(BQ.aq||'')),
+      api('GET','/terms')
+    ]);
+    return `<h1>Admin</h1>
+<div class="stats">${Object.entries(s).map(([k,v])=>`<div class="st"><b>${v}</b><span>${k}</span></div>`).join('')}</div>
+<div class="sec"><h2>Course catalog</h2></div>
+<div class="card">
+  <form class="fg" data-f="POST /admin/offerings" data-ok="Offering added">
+    ${fld('course','Course code','','text','required')}${fld('cname','Course name','','text','required')}${fld('term','Term','','text','required')}${fld('section','Section','','text','required')}
+    <label class="lf">Day<select name="day">${DAYOPT}</select></label>${fld('start','Start','','time','required')}${fld('end','End','','time','required')}
+    <button class="btn p" style="align-self:end">${ic('plus')} Add</button>
+  </form>
+</div>
+${cat.items.map(o=>`<div class="card"><div class="row sb"><span><b>${esc(o.course)}</b> ${esc(o.term)} · Sec ${esc(o.section)} · ${o.day} ${o.start}–${o.end}</span>${actionBtn(`DELETE /admin/offerings/${o.id}`,'Delete',{k:'d',cf:'Delete offering?'})}</div></div>`).join('')||'<p class="why">Empty: students can type any section until offerings exist.</p>'}
+<div class="sec"><h2>Terms &amp; deadlines</h2></div>
+<div class="card">
+  <form class="fg" data-f="POST /admin/terms" data-ok="Term saved">
+    ${fld('name','Term name','','text','required')}${fld('reg_deadline','Registration deadline','','date','required')}
+    <button class="btn p" style="align-self:end">Save</button>
+  </form>
+</div>
+${tr.items.map(t=>`<div class="card"><div class="row sb"><span><b>${esc(t.name)}</b> · deadline ${esc(t.reg_deadline)}</span>${actionBtn(`DELETE /admin/terms/${t.id}`,'Delete',{k:'d'})}</div></div>`).join('')||'<p class="why">No terms yet.</p>'}
+<div class="sec"><h2>Users &amp; requests</h2></div>
+<div class="card">
+  <form class="fg" data-af>
+    ${fld('q','Search email, name or course',BQ.aq)}
+    <button class="btn p" style="align-self:end">${ic('search')} Search</button>
+  </form>
+</div>
+${sr.users.map(u=>`<div class="card"><div class="row sb"><div class="row">${avEl(u,36)}<span><b>${esc(u.name)}</b> <span class="why">${esc(u.email)}${u.banned?' · banned':''}</span></span></div>${u.role!=='admin'&&!u.banned?actionBtn(`POST /admin/users/${u.id}/ban`,'Ban',{k:'d',cf:'Ban this user?'}):''}</div></div>`).join('')}
+${sr.requests.map(x=>`<div class="card"><div class="row sb"><span><b>${esc(x.course)}</b> ${esc(x.cur)} → ${esc(x.want)} · ${esc(x.term)} <span class="why">${esc(x.email)}</span></span>${tagEl(x.st)}${['active','paused','draft'].includes(x.st)?actionBtn(`POST /admin/requests/${x.id}/remove`,'Remove',{k:'d',cf:'Remove this request?'}):''}</div></div>`).join('')}
+<div class="sec"><h2>Maintenance</h2></div>
+<div class="row">${actionBtn('POST /admin/sweep','Close expired requests')}</div>
+<div class="sec"><h2>Reports</h2></div>
+${rp.items.map(x=>`<div class="card"><div class="row sb">${tagEl(x.status==='open'?'pending':'completed')}<div><b>${esc(x.tname)}</b> <span class="why">${esc(x.temail)}</span><p style="margin:4px 0">${esc(x.reason)}</p>${x.status==='open'?`<div class="row">${actionBtn(`POST /admin/reports/${x.id}/ban`,'Ban user',{k:'d',cf:'Ban this user?'})}${actionBtn(`POST /admin/reports/${x.id}/dismiss`,'Dismiss')}</div>`:''}</div></div></div>`).join('')||emptyEl('No reports.')}
+<div class="sec"><h2>Audit log</h2></div>
+<div class="card">
+  ${rp.audit?.map(a=>`<div class="tm">${esc(a.created)} · ${esc(a.action)}</div>`).join('')||'<p class="why">Empty.</p>'}
+</div>`;
+  }
+};
+
+/* ─────────────────────────────────────────────
+   RENDER
+───────────────────────────────────────────── */
+const app=document.getElementById('app');
+async function render(){
+  const[v,id]=(location.hash.slice(2)||'home').split('/');
+  try{const r=await api('GET','/me');me=r.user;unread=r.unread}catch{me=null}
+  if(!me){app.innerHTML=authView();return}
+  try{
+    const body=await(V[v]||V.home)(id);
+    app.innerHTML=shell(V[v]?v:'home',body);
+  }catch(e){
+    app.innerHTML=shell(v,emptyEl('Could not load this page: '+esc(e.message)));
+  }
+  applyDev();
+}
+
+/* ─────────────────────────────────────────────
+   EFFECTS: tick (countdown), confetti
+───────────────────────────────────────────── */
+function tick(){document.querySelectorAll('[data-x]').forEach(e=>{const d=+e.dataset.x-Date.now();if(d<=0)return e.textContent='Expired';const h=Math.floor(d/36e5),m=Math.floor(d%36e5/6e4),s=Math.floor(d%6e4/1e3);e.textContent=`${h}h ${m}m ${s}s left`})}
+setInterval(tick,1000);
+function boom(){const c=document.createElement('canvas'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;document.body.append(c);const P=[...Array(110)].map(()=>({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*18,vy:Math.random()*-16-3,s:4+Math.random()*6,h:260+Math.random()*90,r:Math.random()*6}));let f=0;(function a(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.4;p.r+=.2;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=`hsl(${p.h} 90% 62%)`;x.fillRect(0,0,p.s,p.s*.6);x.restore()});if(++f<110)requestAnimationFrame(a);else c.remove()})()}
+
+/* ─────────────────────────────────────────────
+   THEME
+───────────────────────────────────────────── */
+function toggleTheme(){const cur=document.documentElement.dataset.theme;const isDark=cur==='dark'||(cur!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches);const next=isDark?'light':'dark';document.documentElement.dataset.theme=next;try{localStorage.setItem('ss_th',next)}catch(e){}render()}
+try{const t=localStorage.getItem('ss_th');if(t)document.documentElement.dataset.theme=t}catch(e){}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
+function applyDev(){const w=innerWidth<780;document.documentElement.classList.toggle('mob',w)}
+addEventListener('resize',applyDev);applyDev();
+
+/* ─────────────────────────────────────────────
+   AUTH HELPERS
+───────────────────────────────────────────── */
+async function doLogout(){try{await api('POST','/auth/logout')}catch(e){}me=null;location.hash='#/home';render()}
+
+/* ─────────────────────────────────────────────
+   CLICK HANDLER
+───────────────────────────────────────────── */
+document.addEventListener('click',async e=>{
+  const t=e.target.closest('[data-c],[data-pg],[data-cat],[data-prev]');
+  if(!t)return;
+  if(t.dataset.prev){const pv=document.getElementById('pv');if(pv)pv.innerHTML=ticket(Object.fromEntries(new FormData(t.form)));return}
+  if(t.dataset.pg){BQ.page=+t.dataset.pg;return render()}
+  if(t.dataset.cat!==undefined){BQ.cat=t.dataset.cat;return render()}
+  if(t.dataset.cf&&!confirm(t.dataset.cf))return;
+  let b=t.dataset.b?JSON.parse(t.dataset.b):undefined;
+  if(t.dataset.pr){b={reason:prompt(t.dataset.pr)};if(!b.reason)return}
+  const[m,u]=t.dataset.c.split(' ');
+  t.disabled=true;
+  try{
+    const res=await api(m,u,b);
+    toast(t.dataset.ok||'Done');
+    if(u==='/me'||u==='/auth/logout'){location.hash='#/home'}
+    if(res&&res.status==='completed')boom();
+    render();
+  }catch(x){toast(x.message,true)}
+  finally{t.disabled=false}
+});
+
+/* ─────────────────────────────────────────────
+   SUBMIT HANDLER
+───────────────────────────────────────────── */
+document.addEventListener('submit',async e=>{
+  const f=e.target;e.preventDefault();
+  const b=Object.fromEntries(new FormData(f));
+  if(f.dataset.bf){BQ={...b,page:1};return render()}
+  if(f.dataset.hf){Object.assign(BQ,{hc:b.hc,ht:b.ht,hs:b.hs,hd:b.hd});return render()}
+  if(f.dataset.af){BQ.aq=b.q;return render()}
+  if(!f.dataset.f)return;
+  if(e.submitter?.name)b[e.submitter.name]=e.submitter.value;
+  const[m,u]=f.dataset.f.split(' ');
+  const sub=f.querySelector('button[type=submit],button.pr');
+  if(sub)sub.disabled=true;
+  try{
+    const r=await api(m,u,b);
+    toast(r.verify?'Check your email to verify your account':f.dataset.ok||'Done');
+    if(f.dataset.go)location.hash=f.dataset.go;
+    else render();
+  }catch(x){toast(x.message,true)}
+  finally{if(sub)sub.disabled=false}
+});
+
+/* ─────────────────────────────────────────────
+   AVATAR FILE CHANGE
+───────────────────────────────────────────── */
+document.addEventListener('change',e=>{
+  const i=e.target;
+  if(!i.dataset.av||!i.files[0])return;
+  const im=new Image();
+  im.onload=async()=>{
+    const c=document.createElement('canvas');c.width=c.height=128;
+    const s=Math.min(im.width,im.height);
+    c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,128,128);
+    try{await api('PATCH','/me',{avatar:c.toDataURL('image/jpeg',.8)});toast('Photo updated');render()}
+    catch(x){toast(x.message,true)}
+  };
+  im.src=URL.createObjectURL(i.files[0]);
+});
+
+/* ─────────────────────────────────────────────
+   ROUTING
+───────────────────────────────────────────── */
+addEventListener('hashchange',render);
+render();
+</script>
+</body></html>
